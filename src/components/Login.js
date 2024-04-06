@@ -11,6 +11,11 @@ class Login extends React.Component {
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleLogin = this.handleLogin.bind(this);
+  }
+
+  handleLogin(state) {
+    return state;
   }
   handleChange(e) {
     const { name, value } = e.target;
@@ -37,6 +42,7 @@ class Login extends React.Component {
             },
             () => {
               this.props.setIsLoggedIn(true);
+              //this.handleLogin(true);
               this.props.history.push("/");
             }
           );
@@ -102,10 +108,13 @@ export default withRouter(Login);
 //       return;
 //     }
 //     auth
-//       .authorize(email, password)
+//       .authorize(password, email)
 //       .then((res) => {
-//         console.log(res);
+//         //console.log(res);
 //         setIsLoggedIn(true);
+//       })
+//       .then((data) => {
+//         console.log(data);
 //       })
 //       .catch(console.log);
 //   };

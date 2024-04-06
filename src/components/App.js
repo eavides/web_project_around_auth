@@ -9,7 +9,7 @@ import CardContext from "../contexts/CardContext.js";
 import EditProfilePopup from "./EditProfilePopup.js";
 import EditAvatarPopup from "./EditAvatarPopup.js";
 import AddPlacePopup from "./AddPlacePopup.js";
-import { Route, Switch } from "react-router-dom";
+import { Route, Switch, Redirect } from "react-router-dom";
 import Login from "./Login.js";
 import Register from "./Register.js";
 import ProtectedRoute from "./ProtectedRoute.js";
@@ -26,6 +26,7 @@ function App() {
   const [currentUser, setCurrentUser] = React.useState({});
   const [cards, setCards] = React.useState([]);
   const [isAuthenticated, setIsAuthenticated] = React.useState(false);
+  let stateauth = false;
 
   useEffect(() => {
     api.getCards().then((res) => {
@@ -37,7 +38,6 @@ function App() {
   //   check().then((res) => {
   //     console.log(res);
   //     setIsAuthenticated(res);
-  //     console.log(isAuthenticated);
   //   });
   // }, []);
 
@@ -145,17 +145,28 @@ function App() {
       .catch((err) => console.log(err));
   }
 
+  function handleLogin(state) {
+    stateauth = state;
+    if (state === true) {
+      setIsAuthenticated(true);
+      console.log("entro en el handle login");
+      console.log(state);
+      console.log(isAuthenticated);
+    }
+  }
+
   return (
     <>
       <Switch>
         <Route path="/login">
           <Header />
-          <Login setIsLoggedIn={setIsAuthenticated} />
+          <Login setIsLoggedIn={handleLogin} />
+          {/* <Login setIsLoggedIn={setIsAuthenticated} /> */}
         </Route>
-        <Route path="/register" component={Register} />
-        {/* <Header />
-          <Register /> */}
-        {/* </Route> */}
+        <Route path="/register">
+          <Header />
+          <Register />
+        </Route>
         <ProtectedRoute path="/" loggedIn={isAuthenticated}>
           <div className="page">
             <CardContext.Provider value={cards}>

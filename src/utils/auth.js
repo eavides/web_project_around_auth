@@ -61,11 +61,11 @@ export const authorize = (email, password) => {
     .then((response) => response.json())
     .then((data) => {
       if (data.token) {
-        localStorage.setItem("jwt", data.token);
+        localStorage.setItem("token", data.token);
         console.log(data);
         return data;
       } else {
-        return; // debemos hacer esto para evitar errores ESLint
+        return;
       }
     })
     .catch((err) => console.log(err));
@@ -93,19 +93,37 @@ export const authorize = (email, password) => {
 //     .catch((err) => console.log(err));
 // };
 
-export const check = () => {
-  console.log(`${localStorage.getItem("token")}`);
-  return fetch("https://around.nomoreparties.co/v1/web_es_05/users/me", {
-    method: "GET",
+export const check = (email, password) => {
+  return fetch(`${BASE_URL}/auth/local`, {
+    method: "POST",
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",
-      authorization: `${localStorage.getItem("token")}`,
     },
+    body: JSON.stringify({ email, password }),
   })
     .then((response) => response.json())
-    .catch((err) => {
-      console.log(err);
-      return false;
-    });
+    .then((data) => {
+      if (data.jwt) {
+        localStorage.setItem("jwt", data.jwt);
+        return data;
+      } else {
+        return; // debemos hacer esto para evitar errores ESLint
+      }
+    })
+    .catch((err) => console.log(err));
+  // console.log(`${localStorage.getItem("token")}`);
+  // return fetch("https://around.nomoreparties.co/v1/web_es_05/users/me", {
+  //   method: "GET",
+  //   headers: {
+  //     Accept: "application/json",
+  //     "Content-Type": "application/json",
+  //     authorization: `Bearer ${localStorage.getItem("token")}`,
+  //   },
+  // })
+  //   .then((response) => response.json())
+  //   .catch((err) => {
+  //     console.log(err);
+  //     return false;
+  //   });
 };
