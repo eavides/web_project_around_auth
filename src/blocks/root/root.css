@@ -134,3 +134,24 @@ body {
 .register__login-link:hover {
   opacity: 0.85;
 }
+
+.regconf {
+  display: none;
+  /* visibility: hidden; */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background: white;
+  font-family: "Inter";
+  place-content: center;
+  transition: all 0.2s linear;
+  opacity: 0.1;
+}
+
+.regconf_opened {
+  /* visibility: visible; */
+  display: block;
+  opacity: 1;
+}

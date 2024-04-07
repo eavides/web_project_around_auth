@@ -73,3 +73,5 @@
 @import url(../login/login.css);
 @import url(../login/__labels/login__labels.css);
 @import url(../login/__title/login__title.css);
+@import url(../regconf/regconf.css);
+@import url(../regconf/_opened/regconf_opened.css);

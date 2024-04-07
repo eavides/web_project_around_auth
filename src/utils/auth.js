@@ -93,14 +93,14 @@ export const authorize = (email, password) => {
 //     .catch((err) => console.log(err));
 // };
 
-export const check = (email, password) => {
-  return fetch(`${BASE_URL}/auth/local`, {
-    method: "POST",
+export const getContent = (token) => {
+  return fetch("https://around.nomoreparties.co/v1/web_es_10/users/me", {
+    method: "GET",
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
     },
-    body: JSON.stringify({ email, password }),
   })
     .then((response) => response.json())
     .then((data) => {

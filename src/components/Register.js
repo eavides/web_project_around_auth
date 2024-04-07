@@ -1,6 +1,7 @@
 import React, { Button } from "react";
 import * as auth from "../utils/auth.js";
 import { Link, withRouter } from "react-router-dom";
+import InfoTooltip from "./InfoTooltip.js";
 
 class Register extends React.Component {
   constructor(props) {
@@ -9,7 +10,9 @@ class Register extends React.Component {
       email: "",
       password: "",
       confirmPassword: "",
+      isRegistered: false,
     };
+    // this.isRegister = false;
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
@@ -26,10 +29,9 @@ class Register extends React.Component {
       console.log("es igual el password");
       let { password, email } = this.state;
       auth.register(password, email).then((res) => {
-        console.log(res);
         if (res) {
-          console.log("aca");
-          this.setState({ message: "" }, () => {
+          this.setState({ isRegistered: true }, () => {
+            console.log("aca redirigio");
             this.props.history.push("/login");
           });
         } else {
@@ -76,7 +78,7 @@ class Register extends React.Component {
             </button>
           </div>
         </form>
-
+        <InfoTooltip isOpen={this.state.isRegistered}></InfoTooltip>
         <div className="register__signin">
           <Link to="/login" className="register__login-link">
             ¿Ya eres miembro? Inicia sesión aquí
