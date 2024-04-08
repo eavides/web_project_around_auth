@@ -1,7 +1,6 @@
-import React, { Button } from "react";
+import React from "react";
 import * as auth from "../utils/auth.js";
 import { Link, withRouter } from "react-router-dom";
-import InfoTooltip from "./InfoTooltip.js";
 
 class Register extends React.Component {
   constructor(props) {
@@ -10,17 +9,20 @@ class Register extends React.Component {
       email: "",
       password: "",
       confirmPassword: "",
-      isRegistered: false,
     };
     // this.isRegister = false;
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleRegister = this.handleRegister.bind(this);
   }
   handleChange(e) {
     const { name, value } = e.target;
     this.setState({
       [name]: value,
     });
+  }
+  handleRegister() {
+    this.props.handleRegister(true);
   }
 
   handleSubmit(e) {
@@ -30,10 +32,11 @@ class Register extends React.Component {
       let { password, email } = this.state;
       auth.register(password, email).then((res) => {
         if (res) {
-          this.setState({ isRegistered: true }, () => {
-            console.log("aca redirigio");
-            this.props.history.push("/login");
-          });
+          // this.setState({ isRegistered: true }, () => {
+
+          // });
+          this.handleRegister();
+          this.props.history.push("/login");
         } else {
           console.log("o por aca aca");
           this.setState({
@@ -78,7 +81,7 @@ class Register extends React.Component {
             </button>
           </div>
         </form>
-        <InfoTooltip isOpen={this.state.isRegistered}></InfoTooltip>
+
         <div className="register__signin">
           <Link to="/login" className="register__login-link">
             ¿Ya eres miembro? Inicia sesión aquí

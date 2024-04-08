@@ -13,7 +13,7 @@ import { Route, Switch, Redirect, Link } from "react-router-dom";
 import Login from "./Login.js";
 import Register from "./Register.js";
 import ProtectedRoute from "./ProtectedRoute.js";
-import { check } from "../utils/auth.js";
+import * as auth from "../utils/auth.js";
 
 function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] =
@@ -26,6 +26,7 @@ function App() {
   const [currentUser, setCurrentUser] = React.useState({});
   const [cards, setCards] = React.useState([]);
   const [isAuthenticated, setIsAuthenticated] = React.useState(false);
+  const [isRegistered, setIsRegistered] = React.useState(false);
   let stateauth = false;
 
   useEffect(() => {
@@ -149,10 +150,14 @@ function App() {
     stateauth = state;
     if (state === true) {
       setIsAuthenticated(true);
-      console.log("entro en el handle login");
-      console.log(state);
-      console.log(isAuthenticated);
+      // console.log("entro en el handle login");
+      // console.log(state);
+      // console.log(isAuthenticated);
     }
+  }
+
+  function handleRegister(state) {
+    setIsRegistered(state);
   }
 
   return (
@@ -160,13 +165,21 @@ function App() {
       <Switch>
         <Route path="/login">
           <Header />
-          <Login setIsLoggedIn={handleLogin} />
+          <Login
+            isRegistered={isRegistered}
+            setIsRegistered={setIsRegistered}
+            setIsLoggedIn={handleLogin}
+          />
         </Route>
         <Route path="/register">
           <Header />
-          <Register />
+          <Register handleRegister={handleRegister} />
         </Route>
-        <ProtectedRoute path="/" loggedIn={isAuthenticated}>
+        <ProtectedRoute
+          path="/"
+          loggedIn={isAuthenticated}
+          setIsAuthenticated={setIsAuthenticated}
+        >
           <div className="page">
             <CardContext.Provider value={cards}>
               <CurrentUserContext.Provider value={currentUser}>

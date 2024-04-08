@@ -136,22 +136,47 @@ body {
 }
 
 .regconf {
-  display: none;
-  /* visibility: hidden; */
+  visibility: hidden;
+  /* visibility: visible; */
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100vh;
-  background: white;
   font-family: "Inter";
   place-content: center;
   transition: all 0.2s linear;
-  opacity: 0.1;
+  /* opacity: 0.1; */
+  opacity: 1;
+  display: grid;
+  justify-content: center;
 }
 
 .regconf_opened {
-  /* visibility: visible; */
-  display: block;
+  visibility: visible;
   opacity: 1;
+}
+
+.regconf_container {
+  display: grid;
+  justify-content: center;
+  background: white;
+  width: 430px;
+  height: 330px;
+  border-radius: 20px;
+}
+
+.regconf__container-button {
+  position: relative;
+  right: -400px;
+  top: -35px;
+}
+
+.regconf__container-button:hover {
+  cursor: pointer;
+  opacity: 0.6;
+}
+.regconf__check {
+  display: grid;
+  justify-content: center;
 }
