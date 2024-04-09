@@ -70,8 +70,8 @@ export const authorize = (email, password) => {
     .catch((err) => console.log(err));
 };
 
-export const getContent = async (token) => {
-  return await fetch(`${BASE_URL}/users/me`, {
+export const getContent = (token) => {
+  return fetch(`${BASE_URL}/users/me`, {
     method: "GET",
     headers: {
       Accept: "application/json",

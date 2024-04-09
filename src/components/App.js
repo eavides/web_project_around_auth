@@ -5,6 +5,7 @@ import Footer from "./Footer";
 import React, { useEffect } from "react";
 import api from "../utils/api.js";
 import CurrentUserContext from "../contexts/CurrentUserContext.js";
+import CurrentLoginContext from "../contexts/CurrentLoginContext.js";
 import CardContext from "../contexts/CardContext.js";
 import EditProfilePopup from "./EditProfilePopup.js";
 import EditAvatarPopup from "./EditAvatarPopup.js";
@@ -26,7 +27,9 @@ function App() {
   const [currentUser, setCurrentUser] = React.useState({});
   const [cards, setCards] = React.useState([]);
   const [isAuthenticated, setIsAuthenticated] = React.useState(false);
+  const [isWrong, setIsWrong] = React.useState(false);
   const [isRegistered, setIsRegistered] = React.useState(false);
+  const [currectLogin, setCurrectLogin] = React.useState({});
   let stateauth = false;
 
   useEffect(() => {
@@ -35,12 +38,14 @@ function App() {
     });
   }, []);
 
-  // useEffect(() => {
-  //   check().then((res) => {
-  //     console.log(res);
-  //     setIsAuthenticated(res);
-  //   });
-  // }, []);
+  useEffect(() => {
+    let login = localStorage.getItem("token");
+    auth.getContent(login).then((res) => {
+      setCurrectLogin(res);
+      console.log(res);
+      console.log(currectLogin);
+    });
+  }, []);
 
   useEffect(() => {
     api.getUserInfo().then((res) => {
@@ -150,79 +155,94 @@ function App() {
     stateauth = state;
     if (state === true) {
       setIsAuthenticated(true);
-      // console.log("entro en el handle login");
-      // console.log(state);
-      // console.log(isAuthenticated);
+    } else {
+      setIsAuthenticated(false);
+    }
+  }
+  function handleWrong(wrong) {
+    if (wrong === true) {
+      // setIsAuthenticated(true);
+      setIsWrong(true);
+    } else {
+      setIsWrong(false);
     }
   }
 
   function handleRegister(state) {
     setIsRegistered(state);
   }
+  function handleEmail() {}
 
   return (
     <div>
-      <Switch>
-        <Route path="/login">
-          <Header />
-          <Login
-            isRegistered={isRegistered}
-            setIsRegistered={setIsRegistered}
-            setIsLoggedIn={handleLogin}
-          />
-        </Route>
-        <Route path="/register">
-          <Header />
-          <Register handleRegister={handleRegister} />
-        </Route>
-        <ProtectedRoute
-          path="/"
-          loggedIn={isAuthenticated}
-          setIsAuthenticated={setIsAuthenticated}
-        >
-          <div className="page">
-            <CardContext.Provider value={cards}>
-              <CurrentUserContext.Provider value={currentUser}>
-                <Header />
-                <Main
-                  onEditProfileClick={handleEditProfileClick}
-                  onAddPlaceClick={handleAddPlaceClick}
-                  onEditAvatarClick={handleEditAvatarClick}
-                  onCardClick={handleCardClick}
-                  onCardLike={handleCardLike}
-                  onCardDelete={handleCardDelete}
-                />
-                <Footer />
+      <CurrentLoginContext.Provider value={currectLogin}>
+        <CurrentUserContext.Provider value={currentUser}>
+          <Switch>
+            <Route path="/login">
+              <Header />
+              <Login
+                isRegistered={isRegistered}
+                setIsRegistered={setIsRegistered}
+                setIsLoggedIn={handleLogin}
+                setIsFail={handleWrong}
+                setIsWrong={setIsRegistered}
+                isWrong={isWrong}
+              />
+            </Route>
+            <Route path="/register">
+              <Header />
+              <Register handleRegister={handleRegister} />
+            </Route>
+            <ProtectedRoute
+              path="/"
+              loggedIn={isAuthenticated}
+              setIsAuthenticated={setIsAuthenticated}
+            >
+              <div className="page">
+                <CardContext.Provider value={cards}>
+                  {/* <CurrentUserContext.Provider value={currentUser}> */}
+                  <Header />
+                  <Main
+                    onEditProfileClick={handleEditProfileClick}
+                    onAddPlaceClick={handleAddPlaceClick}
+                    onEditAvatarClick={handleEditAvatarClick}
+                    onCardClick={handleCardClick}
+                    onCardLike={handleCardLike}
+                    onCardDelete={handleCardDelete}
+                  />
+                  <Footer />
 
-                <EditProfilePopup
-                  isOpen={isEditProfilePopupOpen}
-                  onClose={closeAllPopups}
-                  onUpdateUser={handleUpdateUser}
-                />
+                  <EditProfilePopup
+                    isOpen={isEditProfilePopupOpen}
+                    onClose={closeAllPopups}
+                    onUpdateUser={handleUpdateUser}
+                  />
 
-                <EditAvatarPopup
-                  isOpen={isEditAvatarPopupOpen}
-                  onClose={closeAllPopups}
-                  onUpdateAvatar={handleUpdateAvatar}
-                />
+                  <EditAvatarPopup
+                    isOpen={isEditAvatarPopupOpen}
+                    onClose={closeAllPopups}
+                    onUpdateAvatar={handleUpdateAvatar}
+                  />
 
-                <AddPlacePopup
-                  isOpen={isAddPlacePopupOpen}
-                  onClose={closeAllPopups}
-                  onAddPlace={handleAddPlaceSubmit}
-                />
+                  <AddPlacePopup
+                    isOpen={isAddPlacePopupOpen}
+                    onClose={closeAllPopups}
+                    onAddPlace={handleAddPlaceSubmit}
+                  />
 
-                <ImagePopup
-                  link={selectedCard.link}
-                  title={selectedCard.name}
-                  isOpen={isImageOpen ? "imgdisplay_opened" : ""}
-                  onClose={closeAllPopups}
-                ></ImagePopup>
-              </CurrentUserContext.Provider>
-            </CardContext.Provider>
-          </div>
-        </ProtectedRoute>
-      </Switch>
+                  <ImagePopup
+                    link={selectedCard.link}
+                    title={selectedCard.name}
+                    isOpen={isImageOpen ? "imgdisplay_opened" : ""}
+                    onClose={closeAllPopups}
+                  ></ImagePopup>
+                  {/* </CurrentUserContext.Provider> */}
+                </CardContext.Provider>
+              </div>
+            </ProtectedRoute>
+          </Switch>
+        </CurrentUserContext.Provider>
+      </CurrentLoginContext.Provider>
     </div>
   );
 }

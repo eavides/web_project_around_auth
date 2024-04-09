@@ -1,17 +1,30 @@
 import React from "react";
 import closeIcon from "../images/Close.png";
 import checkIcon from "../images/check.png";
+import icoEerror from "../images/error.png";
 
-function InfoTooltip({ isOpen, setIsRegistered }) {
+function InfoTooltip({
+  isOpen,
+  setIsRegistered,
+  setIsWrong,
+  isWrong,
+  exitWin,
+}) {
   function onClose(evt) {
     evt.preventDefault();
-
     if (isOpen === true) {
       setIsRegistered(false);
     }
+    if (isWrong === true) {
+      exitWin(false);
+    }
   }
   return (
-    <div className={`regconf ${isOpen ? "regconf_opened" : ""}`}>
+    <div
+      className={`regconf ${isOpen ? "regconf_opened" : ""} ${
+        isWrong ? "regconf_opened" : ""
+      }`}
+    >
       <div className="regconf_container">
         <div className="regconf__container-button">
           <img
@@ -22,9 +35,19 @@ function InfoTooltip({ isOpen, setIsRegistered }) {
           />
         </div>
         <div className="regconf__check">
-          <img alt="Check" className="regconf__img-check" src={checkIcon} />
+          <img
+            alt="Check"
+            className="regconf__img-check"
+            src={isWrong ? icoEerror : isOpen ? checkIcon : ""}
+          />
         </div>
-        <h2>¡Correcto! Ya estás registrado.</h2>
+        <h2 className="regconf__title">
+          {isWrong
+            ? "Uy, algo salió mal. Por favor, inténtalo de nuevo."
+            : isOpen
+            ? "¡Correcto! Ya estás registrado."
+            : ""}
+        </h2>
       </div>
     </div>
   );

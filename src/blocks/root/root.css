@@ -160,6 +160,8 @@ body {
 .regconf_container {
   display: grid;
   justify-content: center;
+  justify-items: center;
+  align-content: center;
   background: white;
   width: 430px;
   height: 330px;
@@ -168,8 +170,8 @@ body {
 
 .regconf__container-button {
   position: relative;
-  right: -400px;
-  top: -35px;
+  right: -250px;
+  top: -70px;
 }
 
 .regconf__container-button:hover {
@@ -179,4 +181,8 @@ body {
 .regconf__check {
   display: grid;
   justify-content: center;
+}
+
+.regconf__title {
+  text-align: center;
 }

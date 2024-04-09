@@ -12,7 +12,8 @@ class Login extends React.Component {
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.onClose = this.onClose.bind(this);
+
+    this.closewin = this.closewin.bind(this);
   }
 
   handleChange(e) {
@@ -20,7 +21,6 @@ class Login extends React.Component {
     this.setState({
       [name]: value,
     });
-    // alert(this.props.isRegistered);
   }
   handleSubmit(e) {
     e.preventDefault();
@@ -32,7 +32,6 @@ class Login extends React.Component {
     auth
       .authorize(password, email)
       .then((data) => {
-        console.log(data);
         if (data.token) {
           this.setState(
             {
@@ -40,31 +39,33 @@ class Login extends React.Component {
               password: "",
             },
             () => {
-              console.log("pasa aca al cargarse");
               this.props.setIsLoggedIn(true);
               this.props.history.push("/");
             }
           );
         }
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        this.props.setIsLoggedIn(true);
+        this.props.setIsFail(true);
+        this.props.history.push("/login");
+      });
   }
-  onClose(state) {
-    // this.props.setIsRegistered(false);
-    if (state === true) {
-      console.log("entro al que dijeeeee");
-      this.props.setIsRegistered(state);
-      console.log(this.props.isRegistered);
-    } else {
-      console.log("neles");
-    }
+
+  closewin(state) {
+    this.props.setIsLoggedIn(state);
+    this.props.setIsFail(state);
   }
+
   render() {
     return (
       <>
         <InfoTooltip
           isOpen={this.props.isRegistered}
           setIsRegistered={this.props.setIsRegistered}
+          setIsWrong={this.props.setIsWrong}
+          isWrong={this.props.isWrong}
+          exitWin={this.closewin}
         ></InfoTooltip>
         <div className="login">
           <h3 className="login__title">Inicia Sesión</h3>

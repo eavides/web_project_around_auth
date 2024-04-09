@@ -7,16 +7,16 @@ function ProtectedRoute({ children, loggedIn, setIsAuthenticated, ...props }) {
   console.log(loggedIn);
   // console.log(localStorage.getItem("token"));
 
-  async function datos() {
+  function datos() {
     let login = localStorage.getItem("token");
-    await auth.getContent(login).then((data) => {
+    auth.getContent(login).then((data) => {
       if (JSON.stringify(data.data)) {
         setIsAuthenticated(true);
       }
     });
   }
   let respuesta = datos();
-  console.log(respuesta);
+  // console.log(respuesta);
 
   return (
     <Route {...props}>{loggedIn ? children : <Redirect to={"/login"} />}</Route>
