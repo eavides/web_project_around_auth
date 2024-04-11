@@ -1,6 +1,7 @@
 class Api {
   constructor() {
     this._urlBase = "https://around.nomoreparties.co/v1/web_es_05";
+    this.BASE_URL = "https://register.nomoreparties.co";
     this._authorization = "a0471525-76a0-442d-afa2-307d9b782544";
   }
 

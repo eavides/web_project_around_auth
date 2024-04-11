@@ -12,7 +12,6 @@ class Login extends React.Component {
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-
     this.closewin = this.closewin.bind(this);
   }
 
@@ -40,6 +39,7 @@ class Login extends React.Component {
             },
             () => {
               this.props.setIsLoggedIn(true);
+
               this.props.history.push("/");
             }
           );
@@ -48,7 +48,6 @@ class Login extends React.Component {
       .catch((err) => {
         this.props.setIsLoggedIn(true);
         this.props.setIsFail(true);
-        this.props.history.push("/login");
       });
   }
 
@@ -112,69 +111,3 @@ class Login extends React.Component {
 }
 
 export default withRouter(Login);
-
-// import React, { useState } from "react";
-// import { Link } from "react-router-dom";
-// import * as auth from "../utils/auth.js";
-
-// function Login({ setIsLoggedIn }) {
-//   const [email, setEmail] = useState("");
-//   const [password, setPassword] = useState("");
-
-//   const handleSubmit = (e) => {
-//     e.preventDefault();
-//     if (!email || !password) {
-//       return;
-//     }
-//     auth
-//       .authorize(password, email)
-//       .then((res) => {
-//         //console.log(res);
-//         setIsLoggedIn(true);
-//       })
-//       .then((data) => {
-//         console.log(data);
-//       })
-//       .catch(console.log);
-//   };
-//   return (
-//     <div className="login">
-//       <h3 className="login__title">Inicia Sesión</h3>
-//       <form onSubmit={handleSubmit} className="login__form form__format">
-//         <input
-//           id="email"
-//           className="login__format"
-//           required
-//           name="email"
-//           type="email"
-//           value={email}
-//           placeholder="Correo Electronico"
-//           onChange={(e) => setEmail(e.target.value)}
-//         />
-//         <input
-//           id="password"
-//           className="login__format"
-//           required
-//           name="password"
-//           type="password"
-//           value={password}
-//           placeholder="Contraseña"
-//           onChange={(e) => setPassword(e.target.value)}
-//         />
-//         <div className="login__button-container">
-//           <button type="submit" className="login__link">
-//             Inicia Sesión
-//           </button>
-//         </div>
-//       </form>
-
-//       <div className="login__signup">
-//         <Link to="/register" className="signup__link">
-//           ¿Aún no eres miembro? Regístrate aquí
-//         </Link>
-//       </div>
-//     </div>
-//   );
-// }
-
-// export default Login;

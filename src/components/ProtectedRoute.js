@@ -1,25 +1,36 @@
 import React from "react";
-import { Route, Redirect } from "react-router-dom";
+import { Route, Redirect, useHistory } from "react-router-dom";
 import * as auth from "../utils/auth.js";
+function ProtectedRoute({ children, loggedIn, token, setEmail, ...props }) {
+  const history = useHistory();
 
-function ProtectedRoute({ children, loggedIn, setIsAuthenticated, ...props }) {
-  console.log("--------entrooooo--protectd---------------");
-  console.log(loggedIn);
-  // console.log(localStorage.getItem("token"));
-
-  function datos() {
+  function checkToken(token) {
     let login = localStorage.getItem("token");
-    auth.getContent(login).then((data) => {
-      if (JSON.stringify(data.data)) {
-        setIsAuthenticated(true);
-      }
-    });
-  }
-  let respuesta = datos();
-  // console.log(respuesta);
 
+    if (token === false) {
+      auth
+        .getContent(login)
+        .then((res) => {
+          setEmail(res.data.email);
+          history.push("/");
+        })
+        .catch((err) => console.log(err));
+    }
+  }
+  function logged(loggedIn) {
+    if (loggedIn === false) {
+      checkToken(token);
+    }
+  }
+  logged(loggedIn);
   return (
-    <Route {...props}>{loggedIn ? children : <Redirect to={"/login"} />}</Route>
+    <Route {...props}>
+      {loggedIn === true || token === true ? (
+        children
+      ) : (
+        <Redirect to={"/login"} />
+      )}
+    </Route>
   );
 }
 

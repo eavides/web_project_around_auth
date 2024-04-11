@@ -1,13 +1,22 @@
 import logo from "../images/Logo.png";
 import React from "react";
-import CurrentLoginContext from "../contexts/CurrentLoginContext";
-function Header() {
-  const loginContext = React.useContext(CurrentLoginContext);
+import { useHistory } from "react-router-dom";
+
+function Header({ email }) {
+  const history = useHistory();
+  function signOut() {
+    localStorage.removeItem("token");
+    history.push("/login");
+  }
   return (
     <header className="header">
       <img alt="Page Logo" className="header__logo" src={logo} />
+
+      <h2 className="header__email">{email ? email : ""} </h2>
+      <a className="header__session" onClick={signOut}>
+        Cerrar Sesión
+      </a>
       <hr className="header__line" />
-      <h2>el correo es:{} </h2>
     </header>
   );
 }

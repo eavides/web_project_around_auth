@@ -10,7 +10,7 @@ class Register extends React.Component {
       password: "",
       confirmPassword: "",
     };
-    // this.isRegister = false;
+
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleRegister = this.handleRegister.bind(this);
@@ -28,17 +28,12 @@ class Register extends React.Component {
   handleSubmit(e) {
     e.preventDefault();
     if (this.state.password === this.state.confirmPassword) {
-      console.log("es igual el password");
       let { password, email } = this.state;
       auth.register(password, email).then((res) => {
         if (res) {
-          // this.setState({ isRegistered: true }, () => {
-
-          // });
           this.handleRegister();
           this.props.history.push("/login");
         } else {
-          console.log("o por aca aca");
           this.setState({
             message: "¡Algo salió mal!",
           });
