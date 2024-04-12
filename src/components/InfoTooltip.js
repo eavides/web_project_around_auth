@@ -9,6 +9,8 @@ function InfoTooltip({
   setIsWrong,
   isWrong,
   exitWin,
+  closeWin,
+  reg,
 }) {
   function onClose(evt) {
     evt.preventDefault();
@@ -16,7 +18,11 @@ function InfoTooltip({
       setIsRegistered(false);
     }
     if (isWrong === true) {
-      exitWin(false);
+      if (reg) {
+        closeWin(false);
+      } else {
+        exitWin(false);
+      }
     }
   }
   return (

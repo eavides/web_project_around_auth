@@ -137,7 +137,6 @@ body {
 
 .regconf {
   visibility: hidden;
-  /* visibility: visible; */
   position: fixed;
   top: 0;
   left: 0;
@@ -146,10 +145,10 @@ body {
   font-family: "Inter";
   place-content: center;
   transition: all 0.2s linear;
-  /* opacity: 0.1; */
-  opacity: 1;
+  /* opacity: 1; */
   display: grid;
   justify-content: center;
+  background-color: #000000;
 }
 
 .regconf_opened {

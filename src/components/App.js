@@ -9,7 +9,7 @@ import CardContext from "../contexts/CardContext.js";
 import EditProfilePopup from "./EditProfilePopup.js";
 import EditAvatarPopup from "./EditAvatarPopup.js";
 import AddPlacePopup from "./AddPlacePopup.js";
-import { Route, Switch } from "react-router-dom";
+import { Route, Switch, useHistory } from "react-router-dom";
 import Login from "./Login.js";
 import Register from "./Register.js";
 import ProtectedRoute from "./ProtectedRoute.js";
@@ -30,7 +30,7 @@ function App() {
   const [isRegistered, setIsRegistered] = React.useState(false);
   const [email, setEmail] = React.useState("");
   const [token, setToken] = React.useState(false);
-
+  const history = useHistory();
   useEffect(() => {
     api.getCards().then((res) => {
       setCards(res);
@@ -44,7 +44,7 @@ function App() {
   }, []);
 
   useEffect(() => {
-    let login = localStorage.getItem("token");
+    const login = localStorage.getItem("token");
     if (login) {
       auth.getContent(login).then((res) => {
         setEmail(res.data.email);
@@ -188,7 +188,15 @@ function App() {
           </Route>
           <Route path="/register">
             <Header />
-            <Register handleRegister={handleRegister} />
+            <Register
+              handleRegister={handleRegister}
+              isRegistered={isRegistered}
+              setIsRegistered={setIsRegistered}
+              setIsLoggedIn={handleLogin}
+              setIsFail={handleWrong}
+              setIsWrong={setIsRegistered}
+              isWrong={isWrong}
+            />
           </Route>
           <ProtectedRoute
             path="/"

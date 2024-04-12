@@ -30,6 +30,7 @@ function Card({ card, onCardC, onCardLike, onCardDelete }) {
         <img
           className="grid__card-image"
           src={card.link}
+          alt="Imagen de carta"
           onClick={handleClick}
         />
         <div className="grid__card-description">

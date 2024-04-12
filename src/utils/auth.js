@@ -10,15 +10,31 @@ export const register = (password, email) => {
     body: JSON.stringify({ password, email }),
   })
     .then((response) => {
-      try {
-        if (response.status === 201) {
-          return response.json();
-        }
-      } catch (e) {
-        return e;
+      if (!response.ok) {
+        return response.text().then((text) => {
+          throw new Error(text);
+        });
       }
+      return response.json();
     })
-    .catch((err) => console.log(err));
+    .catch((err) => {
+      console.log("Error registering:", err);
+      throw err; // Propagate the error further
+    });
+  // .then((response) => {
+  //   console.log(response.status);
+  //   try {
+  //     if (response.status === 201) {
+  //       console.log(response.ok);
+  //       return response.json();
+  //     }
+  //   } catch (e) {
+  //     return e;
+  //   }
+  // })
+  // .catch((err) => {
+  //   console.log(err);
+  // });
 };
 
 export const authorize = (email, password) => {
@@ -27,7 +43,7 @@ export const authorize = (email, password) => {
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ email, password }),
+    body: JSON.stringify({ password, email }),
   })
     .then((response) => response.json())
     .then((data) => {

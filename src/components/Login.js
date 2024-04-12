@@ -27,7 +27,7 @@ class Login extends React.Component {
       return;
     }
 
-    let { password, email } = this.state;
+    const { email, password } = this.state;
     auth
       .authorize(password, email)
       .then((data) => {
