@@ -5,7 +5,7 @@ function ProtectedRoute({ children, loggedIn, token, setEmail, ...props }) {
   const history = useHistory();
 
   function checkToken(token) {
-    let login = localStorage.getItem("token");
+    const login = localStorage.getItem("token");
 
     if (token === false) {
       auth
@@ -19,6 +19,8 @@ function ProtectedRoute({ children, loggedIn, token, setEmail, ...props }) {
   }
   function logged(loggedIn) {
     if (loggedIn === false) {
+      checkToken(token);
+    } else {
       checkToken(token);
     }
   }

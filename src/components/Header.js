@@ -13,7 +13,7 @@ function Header({ email }) {
       <img alt="Page Logo" className="header__logo" src={logo} />
 
       <h2 className="header__email">{email ? email : ""} </h2>
-      <a className="header__session" onClick={signOut}>
+      <a className="header__session" href="/" onClick={signOut}>
         Cerrar Sesión
       </a>
       <hr className="header__line" />

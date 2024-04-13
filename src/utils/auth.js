@@ -21,23 +21,9 @@ export const register = (password, email) => {
       console.log("Error registering:", err);
       throw err; // Propagate the error further
     });
-  // .then((response) => {
-  //   console.log(response.status);
-  //   try {
-  //     if (response.status === 201) {
-  //       console.log(response.ok);
-  //       return response.json();
-  //     }
-  //   } catch (e) {
-  //     return e;
-  //   }
-  // })
-  // .catch((err) => {
-  //   console.log(err);
-  // });
 };
 
-export const authorize = (email, password) => {
+export const authorize = (password, email) => {
   return fetch(`${BASE_URL}/signin`, {
     method: "POST",
     headers: {
